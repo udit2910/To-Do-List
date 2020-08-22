@@ -1,0 +1,12 @@
+{
+  "port" : 8080,
+  "database": {
+    "host": "127.0.0.1:27017",
+    "default_db_name": "todo_master",
+    "auth_source": "admin",
+    "mongo_options": {
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true
+    }
+  }
+}
