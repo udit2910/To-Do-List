@@ -3,12 +3,13 @@ const express = require('express');
 const app = express.Router();
 const { getDetails, insertDetails, updateDetails, deleteDetails } = require('../repositories/todos');
 
+// get todo items
 app.get('/get-todos/:user_id', async (req, res) => {
   try {
     const userId = req.params['user_id']
     const query = generateQueryForGetDetails(userId)
     const todos = await getDetails(query, getCommonProjection(), 'todo_master')
-    console.log('response for details %s , %j', todos , todos)
+    console.log('fetched todo details : %j , %s', todos , todos)
     if (todos && todos.length > 0) {
     res.status(200).json(todos)
     } else {
@@ -26,7 +27,7 @@ app.post('/add-todos', async (req, res) => {
   try {
     const reqBody = req.body
     const todos = await insertDetails([reqBody], getCommonProjection(),'todo_master')
-    console.log('added details %s , %j', todos , todos)
+    console.log('added details : %j , %s', todos , todos)
     res.status(200).json(todos);
   } catch (error) {
     res.status(500).json(error)
@@ -40,7 +41,7 @@ app.delete('/remove-todos/:user_id/:todo_id', async (req, res) => {
   try {
     const query = generateQueryForDeleteDetails(req.params)
     const response = await deleteDetails(query, 'todo_master')
-    console.log('deleted details %s , %j', response , response)
+    console.log('deleted details: %j , %s', response , response)
     res.status(200).json('deleted Successfully')
   } catch (error) {
     res.status(500).json(error)
@@ -53,7 +54,7 @@ app.post('/update-todos', async (req, res) => {
   try {
     const query = generateQueryForUpdateDetails(req.body)
     const response = await updateDetails(query, generateUpdateJson(req.body), 'todo_master')
-    console.log('response for details %s , %j', response , response)
+    console.log('updated details : %j , %s', response , response)
     res.status(200).json('updated Successfully')
   } catch (error) {
     res.status(500).json(error)

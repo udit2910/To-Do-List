@@ -16,7 +16,6 @@ const userDetails = async (query, projection, tenant) => {
   }
 }
 
-
 module.exports = {
     userDetails
   }

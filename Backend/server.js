@@ -9,16 +9,11 @@ const config = require('config')
 const http = require('http')
 
 const dbUtil = require('./db')(config.database)
-
 dbUtil.connect()
-
 global.db = dbUtil
 
-
 const app = express();
-
-app.use(cors());  //enable cors
-
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
