@@ -22,7 +22,7 @@ export class DisplayListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = Number(sessionStorage.getItem('user_id'));
-    if(this.userId) {
+    if (this.userId) {
       this.getTodolist();
     } else {
       this.router.navigate(['/todo-login']);
@@ -33,10 +33,22 @@ export class DisplayListComponent implements OnInit {
     this._todoService.getTodolist(this.userId).subscribe((response) => {
       if (response) {
         this.listTodo = response
+        this.listTodo.forEach(elem => {
+          elem.showDes = false
+        })
       }
     }, error => {
       console.log('error', error);
     })
+  }
+
+  showDes(item) {
+    this.listTodo.forEach(elem => {
+      if (elem.todo_id == item.todo_id) {
+        elem.showDes = true
+      }
+    }
+    )
   }
 
   addTodo() {
@@ -44,11 +56,12 @@ export class DisplayListComponent implements OnInit {
     json['title'] = ""
     json['description'] = ""
     json['todo_id'] = ""
+    json['showDes'] = true
     this.listTodo.push(json)
   }
 
   saveTodo(title, des) {
-    if(title && des) {
+    if (title && des) {
       const bodyJson = this.generateBodyJson(title, des)
       this._todoService.addTodo(bodyJson).subscribe((response) => {
         if (response) {
@@ -118,3 +131,4 @@ export class DisplayListComponent implements OnInit {
   }
 
 }
+ 

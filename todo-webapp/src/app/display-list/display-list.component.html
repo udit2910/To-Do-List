@@ -7,17 +7,23 @@
         </span>
         <input type="text" class="cmn-input" id="title{{i}}" [(ngModel)]="item.title" />
 
-        <span>
-          Description-
-        </span>
-        <input type="text" class="cmn-input" id="description{{i}}" [(ngModel)]="item.description" />
-
+        <div *ngIf="item.showDes">
+          <span>
+            Description-
+          </span>
+          <input type="text" class="cmn-input" id="description{{i}}" [(ngModel)]="item.description" />
+        </div>
+ 
         <span *ngIf="!item.todo_id">
           <button class="fa fa-check " aria-hidden="true" id="saveBtn{{i}}" (click)="saveTodo(item.title, item.description)"></button>
         </span>
 
         <span>
           <button class="fa fa-trash " aria-hidden="true" id="deleteBtn{{i}}" (click)="deleteTodo(item, listTodo.indexOf(item))"></button>
+        </span>
+
+        <span *ngIf="!item.showDes">
+          <button class="fa fa-arrow-circle-down " aria-hidden="true" id="downBtn{{i}}" (click)="showDes(item)"></button>
         </span>
 
         <span *ngIf="item.todo_id">
@@ -39,11 +45,3 @@
     <button (click)="logout()"> Logout</button>
   </div>
 </div>
-
-
-<!-- <ng-container *ngIf="employmentTypeValue === 0; else isEmploymentType">
-          <span class="fullform-dot"></span>
-       </ng-container>
-       <ng-template #isEmploymentType>
-          <span>{{employmentTypeValue}}</span>
-       </ng-template> -->
