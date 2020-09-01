@@ -1,0 +1,49 @@
+<div class="col-md-12 col-xs-12 padd0" id="list">
+  <div *ngIf="listTodo.length > 0">
+    <span *ngFor="let item of listTodo; let i=index">
+      <div>
+        <span>
+          Title-
+        </span>
+        <input type="text" class="cmn-input" id="title{{i}}" [(ngModel)]="item.title" />
+
+        <span>
+          Description-
+        </span>
+        <input type="text" class="cmn-input" id="description{{i}}" [(ngModel)]="item.description" />
+
+        <span *ngIf="!item.todo_id">
+          <button class="fa fa-check " aria-hidden="true" id="saveBtn{{i}}" (click)="saveTodo(item.title, item.description)"></button>
+        </span>
+
+        <span>
+          <button class="fa fa-trash " aria-hidden="true" id="deleteBtn{{i}}" (click)="deleteTodo(item, listTodo.indexOf(item))"></button>
+        </span>
+
+        <span *ngIf="item.todo_id">
+          <button aria-hidden="true" id="updateBtn{{i}}" (click)="updateTodo(item)"> Update </button>
+        </span>
+        <div *ngIf="(showErrDiv && (!item.title || !item.description || !item.title.trim() || !item.description.trim()))">
+            <span style="color:red;" id="err">{{errMsg}}</span>
+          </div>
+      </div>
+
+      <br>
+    </span>
+  </div>
+  <div>
+    <button class="fa fa-plus " aria-hidden="true" (click)="addTodo()"></button>
+  </div>
+
+  <div>
+    <button (click)="logout()"> Logout</button>
+  </div>
+</div>
+
+
+<!-- <ng-container *ngIf="employmentTypeValue === 0; else isEmploymentType">
+          <span class="fullform-dot"></span>
+       </ng-container>
+       <ng-template #isEmploymentType>
+          <span>{{employmentTypeValue}}</span>
+       </ng-template> -->

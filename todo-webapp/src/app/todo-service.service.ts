@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import {  HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
-// import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
-// import 'rxjs/Rx';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,7 +28,35 @@ export class TodoServiceService {
     const getUrlLink = this.linkGeneration(environment.usersV1, environment.usersV1.userLogin);
     const params = {};
     return this.postAPICall(getUrlLink, body, this.setHeaders());
+  }
 
+  getTodolist(userId) {
+    let getUrlLink = this.linkGeneration(environment.todosV1, environment.todosV1.getTodos);
+    getUrlLink = getUrlLink.replace(':user_id', userId)
+    const params = {};
+    return this.getAPICall(getUrlLink, this.setHeaders());
+  }
+
+
+  addTodo(body) {
+    const getUrlLink = this.linkGeneration(environment.todosV1, environment.todosV1.addTodo);
+    const params = {};
+    return this.postAPICall(getUrlLink, body, this.setHeaders());
+  }
+
+  updateTodo(body) {
+    const getUrlLink = this.linkGeneration(environment.todosV1, environment.todosV1.updateTodo);
+    const params = {};
+    return this.postAPICall(getUrlLink, body, this.setHeaders());
+  }
+
+
+  removeTodolist(userId, todoId) {
+    let getUrlLink = this.linkGeneration(environment.todosV1, environment.todosV1.removeTodo);
+    getUrlLink = getUrlLink.replace(':user_id', userId)
+    getUrlLink = getUrlLink.replace(':todo_id', todoId)
+    const params = {};
+    return this.deleteAPICall(getUrlLink, this.setHeaders());
   }
 
 
@@ -42,7 +68,14 @@ export class TodoServiceService {
   ));
 }
 
-  
+deleteAPICall(url, headers) {
+  return this._http.delete(url, headers)
+  .pipe(map(res =>{
+    return Object(res);
+  }
+));
+}
+
   postAPICall(url, body, headers) {
     return this._http.post(url, body, headers)
     .pipe(map(res =>{

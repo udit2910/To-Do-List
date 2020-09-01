@@ -1,21 +1,20 @@
 <div class="form-wrap">
   <div>
-    <label class="frm-label">User Name</label>
+    <label> User Name</label>
     <input type="text" class="cmn-input" id="uid" [(ngModel)]="userName" />
   </div>
 
   <div>
-    <label class="frm-label">Password</label>
+    <label> Password</label>
     <input type="password" class="cmn-input" id="pwd" [(ngModel)]="password" />
   </div>
 
   <div *ngIf="errDiv">
-    <label class="frm-label">{{errMsg}}</label>
-    <!-- <input type="password" class="cmn-input" id="pwd" [(ngModel)]="password" /> -->
+    <label  id="err0" style="color:red;">{{errMsg}}</label>
   </div>
 
-  <button class="btn btn-rm-refresh margin-right15" (click)="login()">
-        Login
-         </button>
+  <button (click)="login()">
+    Login
+  </button>
 
 </div>

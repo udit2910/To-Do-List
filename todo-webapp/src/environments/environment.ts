@@ -8,8 +8,17 @@ export const environment = {
   usersV1: {
     protocol: 'http',
     port: '8080',
-    apiPrefix: '/api/v1',
-    userLogin: '/users/login'
+    apiPrefix: '/api/v1/users',
+    userLogin: '/login'
+  },
+  todosV1: {
+    protocol: 'http',
+    port: '8080',
+    apiPrefix: '/api/v1/todos',
+    getTodos: '/get-todos/:user_id',
+    addTodo: '/add-todos',
+    updateTodo: '/update-todos',
+    removeTodo: '/remove-todos/:user_id/:todo_id'
   },
 };
 
