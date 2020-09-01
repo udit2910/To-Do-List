@@ -8,11 +8,11 @@ app.post('/login', async (req, res) => {
     try {
       const todos = await userDetails(generateQueryForDeleteDetails(req.body), getCommonProjection(),'todo_master')
       console.log('fetched user details: %j , %s', todos , todos)
-      if (todos & todos.length > 0) {
-        res.status(200).json(todos);
-      } else {
-        res.status(400).json('UserName/Password does not match')
-      }
+      if (todos && todos.length > 0) {
+        res.status(200).json(todos)
+        } else {
+          res.status(400).json('userName/password do not match')
+        }
     } catch (error) {
       res.status(500).json(error)
       console.log('error while fetching user details: %j , %s', error , error)
