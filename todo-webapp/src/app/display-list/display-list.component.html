@@ -5,7 +5,7 @@
         <span>
           Title-
         </span>
-        <input type="text" class="cmn-input" id="title{{i}}" [(ngModel)]="item.title" />
+        <input type="text" class="cmn-input" id="title{{i}}" [(ngModel)]="item.title" (click)="showDes(item)"/>
 
         <div *ngIf="item.showDes">
           <span>
@@ -22,10 +22,6 @@
           <button class="fa fa-trash " aria-hidden="true" id="deleteBtn{{i}}" (click)="deleteTodo(item, listTodo.indexOf(item))"></button>
         </span>
 
-        <span *ngIf="!item.showDes">
-          <button class="fa fa-arrow-circle-down " aria-hidden="true" id="downBtn{{i}}" (click)="showDes(item)"></button>
-        </span>
-
         <span *ngIf="item.todo_id">
           <button aria-hidden="true" id="updateBtn{{i}}" (click)="updateTodo(item)"> Update </button>
         </span>
@@ -39,6 +35,14 @@
   </div>
   <div>
     <button class="fa fa-plus " aria-hidden="true" (click)="addTodo()"></button>
+  </div>
+
+  <div *ngIf="(total && offset < total )"> 
+    <button (click)="showMore()"> Show More</button>
+  </div>
+
+  <div *ngIf="(previousDiv || offset !== 0)"> 
+    <button (click)="previous()"> previous</button>
   </div>
 
   <div>

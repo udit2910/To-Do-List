@@ -1,17 +1,25 @@
 const express = require('express');
 
 const app = express.Router();
-const { getDetails, insertDetails, updateDetails, deleteDetails } = require('../repositories/todos');
+const { getDetails, insertDetails, updateDetails, deleteDetails, getDetailsWithLimit } = require('../repositories/todos');
 
 // get todo items
 app.get('/get-todos/:user_id', async (req, res) => {
   try {
     const userId = req.params['user_id']
+    const offset = Number(req.query['offset'])
+    const limit = Number(req.query['limit'])
     const query = generateQueryForGetDetails(userId)
-    const todos = await getDetails(query, getCommonProjection(), 'todo_master')
-    console.log('fetched todo details : %j , %s', todos , todos)
-    if (todos && todos.length > 0) {
-    res.status(200).json(todos)
+    const [response, todos] = await Promise.all([
+      getDetails(query, getCommonProjection(), 'todo_master'),
+      getDetailsWithLimit(query, getCommonProjection(), offset, limit,'todo_master')
+    ])
+    const resp = {}
+    resp.count = response.length
+    resp.data = todos
+    console.log('fetched todo details : %j , %s', resp , resp)
+    if (resp && resp.count > 0) {
+    res.status(200).json(resp)
     } else {
       res.status(204).json()
     }

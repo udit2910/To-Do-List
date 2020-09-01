@@ -16,6 +16,20 @@ const getDetails = async (query, projection, tenant) => {
   }
 }
 
+const getDetailsWithLimit = async (query, projection, offset, limit, tenant) => {
+  try {
+    const db = await global.db.connect(tenant)
+    const collection = db.model('todos')
+    let response = await collection.find(
+      query, projection
+    ).skip(offset).limit(limit)
+    return response
+  } catch (error) {
+    console.log(`Error in giving response: %s , %j`, error, error)
+    throw error
+  }
+}
+
 const insertDetails = async (reqbody, projection, tenant) => {
   try {
     const db = await global.db.connect(tenant)
@@ -70,5 +84,6 @@ module.exports = {
   getDetails,
   insertDetails,
   updateDetails,
-  deleteDetails
+  deleteDetails,
+  getDetailsWithLimit
 }

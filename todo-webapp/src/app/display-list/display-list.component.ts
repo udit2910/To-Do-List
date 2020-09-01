@@ -15,6 +15,9 @@ export class DisplayListComponent implements OnInit {
   public todoId;
   public showErrDiv = false;
   public errMsg;
+  public offset = 0
+  public total;
+  public previousDiv = false;
   constructor(
     public _todoService: TodoServiceService,
     private router: Router
@@ -30,13 +33,14 @@ export class DisplayListComponent implements OnInit {
   }
 
   getTodolist() {
-    this._todoService.getTodolist(this.userId).subscribe((response) => {
-      if (response) {
-        this.listTodo = response
+    this._todoService.getTodolist(this.userId, this.offset).subscribe((response) => {
+      if (response && response.data && response.data.length > 0) {
+        this.listTodo = response.data
         this.listTodo.forEach(elem => {
           elem.showDes = false
         })
       }
+      this.total = response.count
     }, error => {
       console.log('error', error);
     })
@@ -123,6 +127,17 @@ export class DisplayListComponent implements OnInit {
     json['user_id'] = this.userId
     json['todo_id'] = item.todo_id
     return json
+  }
+
+  showMore() {
+    this.previousDiv = true
+    this.offset = this.offset + 10;
+    this.getTodolist();
+  }
+
+  previous() {
+    this.offset = this.offset - 10;
+    this.getTodolist();
   }
 
   logout() {

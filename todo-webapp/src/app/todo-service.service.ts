@@ -24,17 +24,27 @@ export class TodoServiceService {
     return options;
   }
 
+  setHeaderWithParams(param) {
+    let  headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    const options =  { headers: headers, params: param };
+    return options;
+  }
+
+
   checkLogin(body) {
     const getUrlLink = this.linkGeneration(environment.usersV1, environment.usersV1.userLogin);
     const params = {};
     return this.postAPICall(getUrlLink, body, this.setHeaders());
   }
 
-  getTodolist(userId) {
+  getTodolist(userId, offset) {
     let getUrlLink = this.linkGeneration(environment.todosV1, environment.todosV1.getTodos);
     getUrlLink = getUrlLink.replace(':user_id', userId)
     const params = {};
-    return this.getAPICall(getUrlLink, this.setHeaders());
+    params['offset'] = offset
+    params['limit'] = 10
+    return this.getAPICall(getUrlLink, this.setHeaderWithParams(params));
   }
 
 
